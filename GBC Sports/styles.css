@@ -1,0 +1,198 @@
+*{
+    margin: 0;
+    padding: 0;
+    zoom: 0.97;
+    text-decoration: none;
+}
+body{
+    background-color: rgb(215, 216, 226);
+    color: #5d53b3;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    gap: 150px;
+    padding-inline: 60px;
+    padding-block: 8px;
+    margin-top: 8px;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+.lista{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    text-decoration: none;
+}
+
+.caixa-search{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fffefe;
+    height: 35px;
+    border-radius: 40px;
+    padding: 10px;
+    margin-top: 50px;
+    margin-left: 200px;
+}
+
+.caixa-search:hover > .caixa-texto {
+    width: 200px;
+    padding: 0 3px;
+}
+
+.caixa-search:hover > .botao-search {
+    background-color: #5d53b3;
+    margin-left: 3px;
+}
+
+.botao-search {
+    color: #e9e9e9;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.caixa-texto {
+    border: none;
+    background-color: #ffffff;
+    outline: none;
+    float: left;
+    padding: 0;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+    cursor: pointer;
+}
+
+.carrinho {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-left: 50px;
+}
+.lista-elemento-link{
+    text-decoration: none;
+    color: #292F33;
+    font-weight: 500;
+    font-size: 23px;
+}
+.lista-elemento-link:hover{
+    color:#5d53b3
+}
+
+.lista-elemento-link:hover, .paginaAtual{
+    color:#5d53b3
+}
+
+/* Certifique-se de que o body e o html não permitam overflow horizontal */
+html, body {
+    overflow-x: hidden; /* Evita a barra de rolagem horizontal */
+}
+
+/* Estilo para o contêiner do carrossel de imagens */
+.imagecarousel-container {
+    position: relative;
+    width: 100%; /* Ocupa toda a largura do contêiner pai */
+    overflow: hidden; /* Oculta o overflow horizontal */
+}
+
+/* Estilo para o carrossel de imagens */
+.imagecarousel {
+    position: relative;
+    height: 500px; /* Define a altura do carrossel */
+    margin-bottom: 30px; /* Espaço inferior */
+    display: flex; /* Usa flexbox para alinhar as imagens */
+    width: fit-content; /* Ajusta a largura ao conteúdo */
+    gap: 10px; /* Espaço entre as imagens */
+    animation: bannermove 40s linear infinite; /* Animação para mover o carrossel */
+}
+
+/* Estilo para as imagens dentro do carrossel */
+.imagecarousel img {
+    margin: 0px 0px; /* Margem zero */
+    box-shadow: 2px 2px 8px #8a8a8a; /* Sombra nas imagens */
+    border-radius: 10px; /* Bordas arredondadas */
+}
+
+/* Contêiner dos cards */
+.cards-container {
+    display: grid; /* Usa grid para alinhar os cards */
+    grid-template-columns: repeat(5, 1fr); /* Define cinco colunas de largura igual */ /* Espaço entre os cards */
+    margin-left: 50px;
+    font-family: "SUSE", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+.card {
+    margin: 5px;
+    border-radius: 1rem;
+   }
+
+
+   .card:hover {
+    box-shadow: 0 0 10px #5d53b3;
+    transition: 0.3s;
+   }
+
+   .card h2:hover{
+    color:#5d53b3
+}
+
+   .card img {
+    border-radius: 1rem;
+    width: 250px;
+    height: 250px;
+    margin-left: 30px;
+    border: #aaaeb1 1px solid;
+    margin-top: 10px;
+   }
+   
+   .card h2 {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #292F33;
+   }
+   .card h3 {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #292F33;
+    margin-bottom: 50px;
+   }
+
+/* Animação para mover o carrossel */
+@keyframes bannermove {
+    0% {
+        transform: translateX(0); /* Posição inicial */
+    }
+    100% {
+        transform: translateX(-50%); /* Move o carrossel para a esquerda */
+    }
+}
+
+/* Estilo responsivo para telas menores */
+@media (max-width: 1920px) {
+    /* Adicione estilos específicos para telas menores aqui */
+}

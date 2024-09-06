@@ -1,0 +1,222 @@
+*{
+    margin: 0;
+    padding: 0;
+    zoom: 0.97;
+    text-decoration: none;
+}
+body{
+    background-color: rgb(215, 216, 226);
+    color: #5d53b3;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    gap: 150px;
+    padding-inline: 60px;
+    padding-block: 8px;
+    margin-top: 8px;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+.lista{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    text-decoration: none;
+}
+
+.caixa-search{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fffefe;
+    height: 35px;
+    border-radius: 40px;
+    padding: 10px;
+    margin-top: 50px;
+    margin-left: 200px;
+}
+
+.caixa-search:hover > .caixa-texto {
+    width: 200px;
+    padding: 0 3px;
+}
+
+.caixa-search:hover > .botao-search {
+    background-color: #5d53b3;
+    margin-left: 3px;
+}
+
+.botao-search {
+    color: #e9e9e9;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.caixa-texto {
+    border: none;
+    background-color: #ffffff;
+    outline: none;
+    float: left;
+    padding: 0;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+    cursor: pointer;
+}
+
+.carrinho {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-left: 50px;
+}
+.lista-elemento-link{
+    text-decoration: none;
+    color: #292F33;
+    font-weight: 500;
+    font-size: 23px;
+}
+.lista-elemento-link:hover{
+    color:#5d53b3
+}
+
+.lista-elemento-link:hover, .paginaAtual{
+    color:#5d53b3
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-left: 30px;
+}
+.titulo{
+    font-size: 80px;
+    font-weight: 400;
+    color: #5d53b3;
+    font-family: "Bebas Neue", sans-serif;
+}
+.subtitulo{
+    position: relative;
+    top: -15px;
+    font-size: 30px;
+    font-weight: 400;
+    color: #292F33;
+    font-family: "Bebas Neue", sans-serif;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.dados{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px
+}
+
+.campoVazio{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    color: red;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 10px;
+}
+
+.confirm{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+
+}
+.checkbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-family: "Bebas Neue", sans-serif;
+
+}
+.confirm p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-family: "SUSE", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+}
+.senha, .email{
+    width: 360px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid grey;
+    font-family: "Blinker", sans-serif;
+    padding: 5px;
+}
+
+.login, .criar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5d53b3;
+    color: white;
+    width: 355px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-family: "Blinker", sans-serif;
+    text-decoration: none;
+}
+.submit{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Blinker", sans-serif; 
+    gap: 5px;
+}
+.entrar:hover{
+    background-color: #5d53b3;
+}
+.entrar:active{
+    background-color: #5d53b3;
+}
+
+.error-label {
+    color: red;
+    display: none;
+    text-align: center;
+}
+
+
