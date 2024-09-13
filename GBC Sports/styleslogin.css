@@ -1,11 +1,11 @@
 *{
     margin: 0;
     padding: 0;
-    zoom: 0.97;
+    zoom: 0.98;
     text-decoration: none;
 }
 body{
-    background-color: rgb(215, 216, 226);
+    background-color: rgb(13, 13, 14);
     color: #5d53b3;
 }
 .header{
@@ -31,6 +31,7 @@ body{
     gap: 30px;
     list-style: none;
     text-decoration: none;
+    margin-top: 15px;
 }
 
 .caixa-search{
@@ -87,11 +88,11 @@ body{
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-left: 50px;
+    margin-left: 30px;
 }
 .lista-elemento-link{
     text-decoration: none;
-    color: #292F33;
+    color: rgb(243, 239, 239);
     font-weight: 500;
     font-size: 23px;
 }
@@ -102,6 +103,7 @@ body{
 .lista-elemento-link:hover, .paginaAtual{
     color:#5d53b3
 }
+
 
 .container{
     display: flex;
@@ -123,7 +125,7 @@ body{
     top: -15px;
     font-size: 30px;
     font-weight: 400;
-    color: #292F33;
+    color: #8d9296;
     font-family: "Bebas Neue", sans-serif;
 }
 form{
@@ -174,6 +176,8 @@ form{
     font-family: "SUSE", sans-serif;
     font-size: 15px;
     font-weight: 400;
+    text-decoration: none;
+    color: #5d53b3;
 }
 .senha, .email{
     width: 360px;
@@ -190,7 +194,7 @@ form{
     justify-content: center;
     background-color: #5d53b3;
     color: white;
-    width: 355px;
+    width: 300px;
     height: 38px;
     border-radius: 10px;
     border: none;

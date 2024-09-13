@@ -1,11 +1,11 @@
 *{
     margin: 0;
     padding: 0;
-    zoom: 0.97;
+    zoom: 0.98;
     text-decoration: none;
 }
 body{
-    background-color: rgb(215, 216, 226);
+    background-color: rgb(13, 13, 14);
     color: #5d53b3;
 }
 .header{
@@ -31,6 +31,7 @@ body{
     gap: 30px;
     list-style: none;
     text-decoration: none;
+    margin-top: 15px;
 }
 
 .caixa-search{
@@ -87,11 +88,11 @@ body{
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-left: 50px;
+    margin-left: 30px;
 }
 .lista-elemento-link{
     text-decoration: none;
-    color: #292F33;
+    color: rgb(243, 239, 239);
     font-weight: 500;
     font-size: 23px;
 }
@@ -113,17 +114,19 @@ html, body {
     position: relative;
     width: 100%; /* Ocupa toda a largura do contêiner pai */
     overflow: hidden; /* Oculta o overflow horizontal */
+    margin-top: 20px;
 }
 
 /* Estilo para o carrossel de imagens */
 .imagecarousel {
     position: relative;
+    width: 100%;
     height: 500px; /* Define a altura do carrossel */
     margin-bottom: 30px; /* Espaço inferior */
     display: flex; /* Usa flexbox para alinhar as imagens */
     width: fit-content; /* Ajusta a largura ao conteúdo */
     gap: 10px; /* Espaço entre as imagens */
-    animation: bannermove 40s linear infinite; /* Animação para mover o carrossel */
+    animation: bannermove 30s linear infinite; /* Animação para mover o carrossel */
 }
 
 /* Estilo para as imagens dentro do carrossel */
@@ -133,24 +136,83 @@ html, body {
     border-radius: 10px; /* Bordas arredondadas */
 }
 
-/* Contêiner dos cards */
+/* Cards Container */
 .cards-container {
-    display: grid; /* Usa grid para alinhar os cards */
-    grid-template-columns: repeat(5, 1fr); /* Define cinco colunas de largura igual */ /* Espaço entre os cards */
-    margin-left: 50px;
-    font-family: "SUSE", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Grid flexível para cards */
+    padding: 20px;
+    gap: 20px 1px; 
 }
 
-
+/* Estilo dos Cards */
 .card {
-    margin: 5px;
-    border-radius: 1rem;
-   }
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px #4b4848;
+    overflow: hidden; /* Garante que a imagem não ultrapasse os limites do card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 250px;
 
+}
 
-   .card:hover {
+/* Efeito de hover nos cards */
+.card:hover {
+    transform: translateY(-5px); /* Sutil elevação do card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* Estilo para a imagem dos produtos */
+.card img.product-image {
+    width: 100%;               /* A imagem ocupa 100% da largura do card */
+    height: auto;              /* A altura é ajustada automaticamente para manter a proporção */
+    max-height: 200px;         /* Limita a altura máxima da imagem */
+    object-fit: cover;         /* Corta a imagem sem distorção */
+    border-radius: 20px;       /* Cantos arredondados */
+    transition: transform 0.3s ease; /* Efeito suave ao passar o mouse */
+}
+
+/* Estilo do conteúdo do card */
+.card-content {
+    padding: 10px;
+    text-align: center;
+}
+
+/* Estilo do nome e preço dos produtos */
+.card h2, .card h3 {
+    margin: 10px 0;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+/* H2 (nome do produto) */
+.card h2 {
+    font-size: 1.5em;
+    color: #d0d5da;
+}
+
+/* H3 (preço do produto) */
+.card h3 {
+    font-size: 1.2em;
+    color: #5d53b3; /* Azul para destacar o preço */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Ajusta o grid para telas pequenas */
+    }
+
+    .card img.product-image {
+        max-height: 150px; /* Reduz a altura máxima da imagem em telas menores */
+    }
+}
+
+.card:hover {
     box-shadow: 0 0 10px #5d53b3;
     transition: 0.3s;
    }
@@ -159,28 +221,6 @@ html, body {
     color:#5d53b3
 }
 
-   .card img {
-    border-radius: 1rem;
-    width: 250px;
-    height: 250px;
-    margin-left: 30px;
-    border: #aaaeb1 1px solid;
-    margin-top: 10px;
-   }
-   
-   .card h2 {
-    padding: 0.5rem;
-    font-size: 1.5rem;
-    text-align: center;
-    color: #292F33;
-   }
-   .card h3 {
-    padding: 0.5rem;
-    font-size: 1.5rem;
-    text-align: center;
-    color: #292F33;
-    margin-bottom: 50px;
-   }
 
 /* Animação para mover o carrossel */
 @keyframes bannermove {
@@ -192,7 +232,27 @@ html, body {
     }
 }
 
-/* Estilo responsivo para telas menores */
-@media (max-width: 1920px) {
-    /* Adicione estilos específicos para telas menores aqui */
+
+@media (max-width: 1200px) {
+    .cards-container {
+        grid-template-columns: repeat(4, 1fr); /* 4 colunas em telas menores */
+    }
+}
+
+@media (max-width: 900px) {
+    .cards-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas ainda menores */
+    }
+}
+
+@media (max-width: 600px) {
+    .cards-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas pequenas */
+    }
+}
+
+@media (max-width: 400px) {
+    .cards-container {
+        grid-template-columns: 1fr; /* 1 coluna em telas muito pequenas */
+    }
 }
