@@ -109,24 +109,33 @@ html, body {
     overflow-x: hidden; /* Evita a barra de rolagem horizontal */
 }
 
+.main h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5em;
+    text-align: left;
+    margin: 40px 0 0 20px;
+    color: #d0d5da;
+}
+
 /* Estilo para o contêiner do carrossel de imagens */
 .imagecarousel-container {
     position: relative;
     width: 100%; /* Ocupa toda a largura do contêiner pai */
     overflow: hidden; /* Oculta o overflow horizontal */
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 /* Estilo para o carrossel de imagens */
 .imagecarousel {
     position: relative;
-    width: 100%;
+    width: calc(100% * 3); 
     height: 500px; /* Define a altura do carrossel */
     margin-bottom: 30px; /* Espaço inferior */
     display: flex; /* Usa flexbox para alinhar as imagens */
     width: fit-content; /* Ajusta a largura ao conteúdo */
     gap: 10px; /* Espaço entre as imagens */
     animation: bannermove 30s linear infinite; /* Animação para mover o carrossel */
+    overflow: hidden;
 }
 
 /* Estilo para as imagens dentro do carrossel */
@@ -229,7 +238,7 @@ html, body {
         transform: translateX(0); /* Posição inicial */
     }
     100% {
-        transform: translateX(-50%); /* Move o carrossel para a esquerda */
+        transform: translateX(calc(-100% + 100vw)); /* Move o carrossel para a esquerda */
     }
 }
 
