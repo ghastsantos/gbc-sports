@@ -215,6 +215,7 @@ html, body {
 .card:hover {
     box-shadow: 0 0 10px #5d53b3;
     transition: 0.3s;
+    margin: 0;
    }
 
    .card h2:hover{
