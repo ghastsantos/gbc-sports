@@ -81,8 +81,8 @@ body{
     cursor: pointer;
 }
 
-.paginas {
-    margin-left: 556px;
+.paginas-menu {
+    margin-left: 555px;
     display: flex;
     flex-direction: row;
     gap: 30px;
