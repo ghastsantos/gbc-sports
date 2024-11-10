@@ -28,26 +28,24 @@ body{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 30px;
-    list-style: none;
-    text-decoration: none;
-    margin-top: 15px;
+    margin-top: 30px;
+    position: relative;
 }
 
 .caixa-search{
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    transform: translateY(-50%);
     background-color: #fffefe;
     height: 35px;
     border-radius: 40px;
     padding: 10px;
-    margin-top: 50px;
-    margin-left: 200px;
+    position: absolute;
+    margin-left: 180px;
 }
 
 .caixa-search:hover > .caixa-texto {
-    width: 200px;
+    width: 350px;
     padding: 0 3px;
 }
 
@@ -80,14 +78,24 @@ body{
     transition: 0.4s;
     line-height: 40px;
     width: 0px;
+    cursor: pointer;
+}
+
+.paginas {
+    margin-left: 556px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    list-style: none;
+    text-decoration: none;
+    justify-content: flex-start;
 }
 
 .carrinho {
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 10px;
-    margin-left: 30px;
+    margin-left: 50px;
+    justify-content: flex-start;
 }
 .lista-elemento-link{
     text-decoration: none;
