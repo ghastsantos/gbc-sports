@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GBC Sports</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Carrinho</title>
+    <link rel="stylesheet" href="/styles/stylesProdutos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -20,16 +20,14 @@
                 <div class="logo">
                     <img src="/images/logo.png" style="width: 100px; height: 100px; margin-top: 10px;" alt="logo">
                 </div>
-
                 <div class="caixa-search">
                     <input class="caixa-texto" type="text" name="" placeholder="Pesquisar...">
                     <a class="botao-search" href="">
                         <img src="/images/search.png" style="width: 20px; height: 20px;" alt="search">
                     </a>
                 </div>
-
                 <div class="paginas-menu">
-                    <li><a href="/index.html" class="paginaAtual lista-elemento-link">Início</a></li>
+                    <li><a href="/index.html" class="lista-elemento-link">Início</a></li>
                     <li><a href="/camisas-masculinas.html" class="lista-elemento-link">Camisas Masculinas</a></li>
                     <li><a href="/camisas-femininas.html" class="lista-elemento-link">Camisas Femininas</a></li>
                     <li><a href="/regatas.html" class="lista-elemento-link">Regatas</a></li>
@@ -62,90 +60,80 @@
                         </a>
                     </div>
                 </div>
-                </div>
-                   
             </ul>
         </nav>
     </section>
-
     <section class="main">
-        <div class="imagecarousel-container">
-            <div class="imagecarousel">
-                <a href="#"> 
-                    <img src="/images/banner-palmeiras.png" style="height: 500px; width: fit-content;" alt="Banner Palmeiras" />
-                </a>
-                <a href="#"> 
-                    <img src="/images/gremio-banner.webp" style="height: 500px; width: fit-content;" alt="Banner Grêmio" />
-                </a>
-            </div>
+        <h1>Seu Carrinho</h1>
+        <div class="cart-container">
+            
         </div>
-        <h1>Novidades na área!</h1>
-        <div class="cards-container">
+        <div class="FinalizarCompra">
+            <a href="finalizar-compra.html" class="botaoFinalizarCompra">Ir para o checkout</a>
         </div>
     </section>
     <script>
-        async function loadProducts() {
-            const response = await fetch('http://localhost:3000/api/produtos');
-            const products = await response.json();
-            const cardsContainer = document.querySelector('.cards-container');
-    
-            cardsContainer.innerHTML = '';
-    
-            if (products.length === 0) {
-                cardsContainer.innerHTML = '<p>Nenhum produto disponível.</p>';
-                return;
-            }
-    
-            products.forEach(product => {
-                const formattedPrice = parseFloat(product.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const productCard = `
-                    <div class="card">
-                        <a href="#"> 
-                            <img src="data:image/jpeg;base64,${product.imagem}" alt="${product.nome}" style="width: 200px; height: 200px; border-radius: 10px;">
-                            <h2>${product.nome}</h2>
-                            <div style="display: flex; justify-content: center; gap: 10px">
-                                <h2>${product.ano}</h2>
-                                <h2>${product.genero}</h2>
-                            </div>
-                            <h3>R$ ${formattedPrice}</h3>
-                            <button onclick="addToCart(${product.id})" class="btn btn-primary">Adicionar ao Carrinho</button>
-                        </a>
-                    </div>
-                `;
-                cardsContainer.insertAdjacentHTML('beforeend', productCard);
-            });
-        }
-
-        const addToCart = (productId) => {
+        async function loadCart() {
             const userId = localStorage.getItem('id');
             if (!userId) {
-                alert('Você precisa estar logado para adicionar itens ao carrinho.');
+                alert('Você precisa estar logado para ver o carrinho.');
                 window.location.href = 'http://localhost:3000/usuarios/login.html'; // Redireciona para a página de login
                 return;
             }
 
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                document.querySelector('.cart-container').innerHTML = '<p>Seu carrinho está vazio.</p>';
+                return;
+            }
+
+            const response = await fetch('http://localhost:3000/api/produtos');
+            const products = await response.json();
+            const cartContainer = document.querySelector('.cart-container');
+
+            cartContainer.innerHTML = '';
+
+            cart.forEach(cartItem => {
+                const product = products.find(p => p.id === cartItem.id);
+                if (product) {
+                    const formattedPrice = parseFloat(product.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    const productCard = `
+                        <div class="card">
+                            <a href="#"> 
+                                <img src="data:image/jpeg;base64,${product.imagem}" alt="${product.nome}" style="width: 200px; height: 200px; border-radius: 10px;">
+                                <h2>${product.nome}</h2>
+                                <div style="display: flex; justify-content: center; gap: 10px">
+                                    <h2>${product.ano}</h2>
+                                    <h2>${product.genero}</h2>
+                                </div>
+                                <h3>R$ ${formattedPrice}</h3>
+                                <p>Quantidade: ${cartItem.quantity}</p>
+                                <button onclick="removeFromCart(${product.id})" class="btn btn-danger">Remover</button>
+                            </a>
+                        </div>
+                    `;
+                    cartContainer.insertAdjacentHTML('beforeend', productCard);
+                }
+            });
+        }
+
+        function removeFromCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
             const productIndex = cart.findIndex(item => item.id === productId);
 
             if (productIndex !== -1) {
-                cart[productIndex].quantity += 1; // Incrementa a quantidade se o produto já estiver no carrinho
-            } else {
-                cart.push({ id: productId, quantity: 1 }); // Adiciona o produto ao carrinho com quantidade 1
+                cart[productIndex].quantity -= 1;
+                if (cart[productIndex].quantity === 0) {
+                    cart.splice(productIndex, 1); // Remove o produto do carrinho se a quantidade for 0
+                }
             }
 
             localStorage.setItem('cart', JSON.stringify(cart));
-            alert('Produto adicionado ao carrinho!');
+            loadCart();
+            alert('Produto removido do carrinho!');
         }
 
-        document.addEventListener('DOMContentLoaded', loadProducts);
-    </script>
-    <script>
-        window.onload = function() {
-            const carousel = document.querySelector('.imagecarousel');
-            carousel.style.animation = 'none'; // Para interromper a animação
-            carousel.offsetHeight; // Força o reflow
-            carousel.style.animation = ''; // Reinicia a animação
-        };
+        document.addEventListener('DOMContentLoaded', loadCart);
     </script>
 </body>
 </html>

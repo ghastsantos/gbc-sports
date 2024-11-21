@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GBC Sports</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Regatas</title>
+    <link rel="stylesheet" href="/styles/stylesProdutos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -29,13 +29,13 @@
                 </div>
 
                 <div class="paginas-menu">
-                    <li><a href="/index.html" class="paginaAtual lista-elemento-link">Início</a></li>
+                    <li><a href="/index.html" class="lista-elemento-link">Início</a></li>
                     <li><a href="/camisas-masculinas.html" class="lista-elemento-link">Camisas Masculinas</a></li>
                     <li><a href="/camisas-femininas.html" class="lista-elemento-link">Camisas Femininas</a></li>
-                    <li><a href="/regatas.html" class="lista-elemento-link">Regatas</a></li>
+                    <li><a href="/regatas.html" class="paginaAtual lista-elemento-link">Regatas</a></li>
                     <li><a href="/casacos.html" class="lista-elemento-link">Casacos</a></li>
                 </div>
-                    <a href="/carrinho.html" class="carrinho">
+                    <a href="carrinho.html" class="carrinho">
                         <img src="/images/carrinho.png" style="width: 40px; height: 40px; margin-bottom: 10px;" alt="carrinho">
                     </a>
                 </div>
@@ -46,8 +46,8 @@
             </ul>
             <ul class="lista-celular">
                 <div class="paginas-menu-celular">
-                    <li><a href="" class="paginaAtual lista-elemento-link">Início</a></li>
-                    <li><a href="" class="lista-elemento-link">Camisas</a></li>
+                    <li><a href="" class="lista-elemento-link">Início</a></li>
+                    <li><a href="" class="paginaAtual lista-elemento-link">Camisas</a></li>
                     <li><a href="" class="lista-elemento-link">Regatas</a></li>
                     <li><a href="" class="lista-elemento-link">Casacos</a></li>
 
@@ -67,36 +67,28 @@
             </ul>
         </nav>
     </section>
-
     <section class="main">
-        <div class="imagecarousel-container">
-            <div class="imagecarousel">
-                <a href="#"> 
-                    <img src="/images/banner-palmeiras.png" style="height: 500px; width: fit-content;" alt="Banner Palmeiras" />
-                </a>
-                <a href="#"> 
-                    <img src="/images/gremio-banner.webp" style="height: 500px; width: fit-content;" alt="Banner Grêmio" />
-                </a>
-            </div>
-        </div>
-        <h1>Novidades na área!</h1>
-        <div class="cards-container">
-        </div>
-    </section>
-    <script>
-        async function loadProducts() {
-            const response = await fetch('http://localhost:3000/api/produtos');
-            const products = await response.json();
-            const cardsContainer = document.querySelector('.cards-container');
-    
-            cardsContainer.innerHTML = '';
-    
-            if (products.length === 0) {
-                cardsContainer.innerHTML = '<p>Nenhum produto disponível.</p>';
-                return;
-            }
-    
-            products.forEach(product => {
+    </div>
+    <h1>Nossas regatas!</h1>
+    <div class="cardsReg-container">
+    </div>
+</section>
+<script>
+    async function loadProducts() {
+        const response = await fetch('http://localhost:3000/api/produtos');
+        const products = await response.json();
+        const cardsContainer = document.querySelector('.cardsReg-container');
+
+        cardsContainer.innerHTML = '';
+
+        if (products.length === 0) {
+            cardsContainer.innerHTML = '<p>Nenhum produto disponível.</p>';
+            return;
+        }
+
+        products
+            .filter(product => product.tipo === 'regata') 
+            .forEach(product => {
                 const formattedPrice = parseFloat(product.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 const productCard = `
                     <div class="card">
@@ -114,38 +106,17 @@
                 `;
                 cardsContainer.insertAdjacentHTML('beforeend', productCard);
             });
-        }
+    }
 
-        const addToCart = (productId) => {
-            const userId = localStorage.getItem('id');
-            if (!userId) {
-                alert('Você precisa estar logado para adicionar itens ao carrinho.');
-                window.location.href = 'http://localhost:3000/usuarios/login.html'; // Redireciona para a página de login
-                return;
-            }
-
+    function addToCart(productId) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const productIndex = cart.findIndex(item => item.id === productId);
-
-            if (productIndex !== -1) {
-                cart[productIndex].quantity += 1; // Incrementa a quantidade se o produto já estiver no carrinho
-            } else {
-                cart.push({ id: productId, quantity: 1 }); // Adiciona o produto ao carrinho com quantidade 1
-            }
-
+            cart.push(productId);
             localStorage.setItem('cart', JSON.stringify(cart));
             alert('Produto adicionado ao carrinho!');
         }
 
-        document.addEventListener('DOMContentLoaded', loadProducts);
-    </script>
-    <script>
-        window.onload = function() {
-            const carousel = document.querySelector('.imagecarousel');
-            carousel.style.animation = 'none'; // Para interromper a animação
-            carousel.offsetHeight; // Força o reflow
-            carousel.style.animation = ''; // Reinicia a animação
-        };
-    </script>
+    document.addEventListener('DOMContentLoaded', loadProducts);
+</script>
+
 </body>
 </html>

@@ -22,7 +22,6 @@ body{
     font-style: normal;
 }
 
-
 .lista{
     display: flex;
     flex-direction: row;
@@ -30,6 +29,10 @@ body{
     align-items: center;
     margin-top: 30px;
     position: relative;
+}
+
+.lista-celular{
+    display: none;
 }
 
 .caixa-search{
@@ -45,7 +48,7 @@ body{
 }
 
 .caixa-search:hover > .caixa-texto {
-    width: 350px;
+    width: 300px;
     padding: 0 3px;
 }
 
@@ -81,14 +84,18 @@ body{
     cursor: pointer;
 }
 
-.paginas {
-    margin-left: 556px;
+.paginas-menu {
+    margin-left: 555px;
     display: flex;
     flex-direction: row;
-    gap: 30px;
+    gap: 20px;
     list-style: none;
     text-decoration: none;
     justify-content: flex-start;
+   }
+
+.paginas-menu-celular {
+    display: none;
 }
 
 .carrinho {
@@ -111,126 +118,100 @@ body{
     color:#5d53b3
 }
 
-.container{
+
+.main-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    height: 100vh;
-    flex-direction: column;
-    margin-left: 40px;
+    padding: 20px;
+}
+
+.form-container {
+    flex: 1;
+    margin-right: 20px;
+    margin-left: 150px;
+    max-width: 50%;
+}
+
+.form-container h2{
+    font-size: 60px;
     font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+    color: #5d53b3;
+    margin-bottom: 20px;
 }
-.titulo{
-    font-size: 80px;
-    font-weight: 400;
-}
-.subtitulo{
-    position: relative;
-    top: -15px;
-    font-size: 30px;
-    font-weight: 400;
-    color: #8d9296;
+
+.form-container .mb-3{
+    margin-bottom: 15px;
+    text-decoration: none;
+    color: rgb(243, 239, 239);
+    font-weight: 500;
+    font-size: 18px;
     font-family: "Bebas Neue", sans-serif;
-}
-form{
-    display: flex;
+     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-}
-.dados{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px
-}
-.dado{
-    width: 330px;
-    height: 30px;
-    border-radius: 10px;
-    border: 1px solid grey;
-    font-family: "Blinker", sans-serif;
-    padding: 5px;
 }
 
-.criar{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #5d53b3;
-    color: white;
-    width: 300px;
-    height: 38px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+.form-container .mb-3 input{
+    width: 70%;
+    padding: 10px;
+    border-radius: 5px;
     border: none;
-    font-size: 15px;
-    font-family: "Blinker", sans-serif;
-    text-decoration: none;
-    cursor: pointer;
+    color: #d0d5da;
 }
 
-.entrar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.form-container .btn-primary {
     background-color: #5d53b3;
-    color: white;
-    width: 300px;
-    height: 38px;
-    border-radius: 10px;
+    color: #fff;
     border: none;
-    font-size: 15px;
-    font-family: "Blinker", sans-serif;
-    text-decoration: none;
-    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+    justify-content: right;
+    align-items: right;
+    margin-top: 20px;     
 }
 
-.dadosenha {
+.form-container .btn-secondary {
+    background-color: #5d53b3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+    justify-content: right;
+    align-items: right;
+    margin-top: 20px;     
+}
+
+.form-container .form-check{
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+    justify-content: right;
+    align-items: right;
+}
+
+.form-check .form-check-label{
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+
+.fotoLateral {
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 340px;
-    height: 30px;
 }
 
-.mostrarSenha{
-    justify-content: center;
-    align-items: center;
-    margin-left: 90px;
-    margin-top: 10px;
-    cursor: pointer;
+.fotoLateral img {
+    width: 820px;
+    height: auto;
+    border-radius: 5%;
 }
-.submit{
-    justify-content: center;
-    align-items: center;
-    font-family: "Blinker", sans-serif; 
-    gap: 5px;
-}
-.criar{
-    font-family: "Blinker", sans-serif;
-}
-.submit p{
-    font-family: "Blinker", sans-serif; 
-    font-size: 15px;
-}
-.entrar:hover{
-    background-color: #5d53b3;
-}
-.entrar:active{
-    background-color: #5d53b3;
-}
-
-.error-label {
-    color: red;
-    display: none;
-    text-align: center;
-}
-
-/*final container*/

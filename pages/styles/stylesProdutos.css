@@ -1,0 +1,400 @@
+*{
+    margin: 0;
+    padding: 0;
+    zoom: 0.98;
+    text-decoration: none;
+}
+body{
+    background-color: rgb(13, 13, 14);
+    color: #5d53b3;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    gap: 150px;
+    padding-inline: 60px;
+    padding-block: 8px;
+    margin-top: 8px;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.lista{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    position: relative;
+}
+
+.lista-celular{
+    display: none;
+}
+
+.caixa-search{
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background-color: #fffefe;
+    height: 35px;
+    border-radius: 40px;
+    padding: 10px;
+    position: absolute;
+    margin-left: 180px;
+}
+
+.caixa-search:hover > .caixa-texto {
+    width: 300px;
+    padding: 0 3px;
+}
+
+.caixa-search:hover > .botao-search {
+    background-color: #5d53b3;
+    margin-left: 3px;
+}
+
+.botao-search {
+    color: #e9e9e9;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.caixa-texto {
+    border: none;
+    background-color: #ffffff;
+    outline: none;
+    float: left;
+    padding: 0;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+    cursor: pointer;
+}
+
+.paginas-menu {
+    margin-left: 555px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    list-style: none;
+    text-decoration: none;
+    justify-content: flex-start;
+   }
+
+.paginas-menu-celular {
+    display: none;
+}
+
+.carrinho {
+    display: flex;
+    gap: 10px;
+    margin-left: 50px;
+    justify-content: flex-start;
+}
+.lista-elemento-link{
+    text-decoration: none;
+    color: rgb(243, 239, 239);
+    font-weight: 500;
+    font-size: 23px;
+}
+.lista-elemento-link:hover{
+    color:#5d53b3
+}
+
+.lista-elemento-link:hover, .paginaAtual{
+    color:#5d53b3
+}
+
+.main h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2em;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.botaoFinalizarCompra {
+    display: inline-block;
+    justify-content: right;
+    padding: 10px 20px;
+    background-color: #5d53b3; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    text-align: center;
+    text-decoration: none; /* Remove sublinhado */
+    border-radius: 10px; /* Bordas arredondadas */
+    font-family: "Blinker", sans-serif; /* Fonte */
+    font-size: 15px; /* Tamanho da fonte */
+    transition: background-color 0.3s ease; /* Transição suave */
+    margin-top: 20px; /* Espaço superior */
+}
+
+.botaoFinalizarCompra:hover {
+    background-color: #4a429b; /* Cor de fundo ao passar o mouse */
+}
+
+.botaoFinalizarCompra:active {
+    background-color: #3a347b; /* Cor de fundo ao clicar */
+}
+
+/* Estilos para a tela de finalização de compra */
+.container {
+    width: 100%;
+    border-radius: 10px;
+    height: 100%;
+    margin-top: 20px;
+}
+
+.container h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2em;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Grid flexível para cards */
+    padding: 20px;
+    gap: 20px 1px; 
+}
+
+/* Estilo dos Cards */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px #4b4848;
+    overflow: hidden; /* Garante que a imagem não ultrapasse os limites do card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 250px;
+}
+
+/* Efeito de hover nos cards */
+.card:hover {
+    transform: translateY(-2px); /* Sutil elevação do card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.01);
+}
+
+/* Estilo para a imagem dos produtos */
+.card img.product-image {
+    width: 100%;               /* A imagem ocupa 100% da largura do card */
+    height: auto;              /* A altura é ajustada automaticamente para manter a proporção */
+    max-height: 200px;         /* Limita a altura máxima da imagem */
+    object-fit: cover;         /* Corta a imagem sem distorção */
+    border-radius: 20px;       /* Cantos arredondados */
+    transition: transform 0.3s ease; /* Efeito suave ao passar o mouse */
+}
+
+/* Estilo do conteúdo do card */
+.card-content {
+    padding: 10px;
+    text-align: center;
+}
+
+/* Estilo do nome e preço dos produtos */
+.card h2, .card h3 {
+    margin: 10px 0;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+/* H2 (nome do produto) */
+.card h2 {
+    font-size: 1.5em;
+    color: #d0d5da;
+}
+
+/* H3 (preço do produto) */
+.card h3 {
+    font-size: 1.2em;
+    color: #5d53b3; /* Azul para destacar o preço */
+}
+
+.card p{
+    font-size: 1em;
+    color: #d0d5da;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.card button {
+    background-color: #5d53b3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+
+   .card h2:hover{
+    color:#5d53b3
+}
+
+
+.botaoFinalizarCompra{
+    background-color: #5d53b3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.FinalizarCompra {
+    display: flex;
+    justify-content: center; /* Alinha o botão à direita */
+    margin-top: 20px;
+}
+
+.checkout-form{
+    width: 800px;
+    height: 500px;
+    margin: 0 auto;
+}
+
+.mb-3 {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-size: 1em;
+    color: #ffffff;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.form-control {
+    max-width: 800px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    display: flex;
+}
+
+.form-select {
+    width: 823px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+#qrcode {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-success {
+    background-color: #5d53b3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+    justify-content: right;
+    align-items: right;
+    margin-top: 20px;
+}
+
+.buttonQrCode {
+    background-color: #5d53b3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.cardsMasc-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Grid flexível para cards */
+    padding: 20px;
+    gap: 20px 1px; 
+}
+
+.cardsFem-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Grid flexível para cards */
+    padding: 20px;
+    gap: 20px 1px; 
+}
+
+.cardsCas-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Grid flexível para cards */
+    padding: 20px;
+    gap: 20px 1px; 
+}
+
+.cardsReg-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Grid flexível para cards */
+    padding: 20px;
+    gap: 20px 1px; 
+}
+
+.cart-container{
+    display: grid;
+    justify-content: center; 
+    align-items: center;
+    grid-template-columns: repeat(5, 1fr); /* Grid flexível para cards */
+    margin-bottom: 20px;
+    width: 100%;
+    margin-right: 200px;
+    padding: 20px;
+    gap: 20px 1px; 
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Sutil elevação do card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}

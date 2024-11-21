@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="/styles/stylesPerfil.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+</head>
+<body>
+    <section class="header">
+        <nav>
+            <ul class="lista">
+                <div class="logo">
+                    <img src="/images/logo.png" style="width: 100px; height: 100px; margin-top: 10px;" alt="logo">
+                </div>
+                <div class="caixa-search">
+                    <input class="caixa-texto" type="text" name="" placeholder="Pesquisar...">
+                    <a class="botao-search" href="">
+                        <img src="/images/search.png" style="width: 20px; height: 20px;" alt="search">
+                    </a>
+                </div>
+                <div class="paginas-menu">
+                    <li><a href="/index.html" class="lista-elemento-link">Início</a></li>
+                    <li><a href="/camisas-masculinas.html" class="lista-elemento-link">Camisas Masculinas</a></li>
+                    <li><a href="/camisas-femininas.html" class="lista-elemento-link">Camisas Femininas</a></li>
+                    <li><a href="/regatas.html" class="lista-elemento-link">Regatas</a></li>
+                    <li><a href="/casacos.html" class="lista-elemento-link">Casacos</a></li>
+                </div>
+                    <a href="carrinho.html" class="carrinho">
+                        <img src="/images/carrinho.png" style="width: 40px; height: 40px; margin-bottom: 10px;" alt="carrinho">
+                    </a>
+                </div>
+                    <a href="perfil.html" class="perfil">
+                        <img src="/images/perfil.png" style="width: 40px; height: 40px; margin-bottom: 7px;  margin-left: 30px; justify-content: flex-start;" alt="perfil">
+                    </a>
+                </div>
+            </ul>
+            <ul class="lista-celular">
+                <div class="paginas-menu-celular">
+                    <li><a href="/index.html" class="paginaAtual lista-elemento-link">Início</a></li>
+                    <li><a href="/camisas-masculinas.html" class="lista-elemento-link">Camisas Masculinas</a></li>
+                    <li><a href="/camisas-femininas.html" class="lista-elemento-link">Camisas Femininas</a></li>
+                    <li><a href="/regatas.html" class="lista-elemento-link">Regatas</a></li>
+                    <li><a href="/casacos.html" class="lista-elemento-link">Casacos</a></li>
+                </div>
+                    <a href="carrinho.html" class="carrinho">
+                        <img src="/images/carrinho.png" style="width: 40px; height: 40px; margin-bottom: 10px;" alt="carrinho">
+                    </a>
+                </div>
+                    <a href="perfil.html" class="perfil">
+                        <img src="/images/perfil.png" style="width: 40px; height: 40px; margin-bottom: 7px;  margin-left: 30px; justify-content: flex-start;" alt="perfil">
+                    </a>
+                </div>
+            </ul>
+        </nav>
+    </section>
+    <section class="container">
+        <h1>Perfil do Usuário</h1>
+        <div id="profile">
+            <form id="profileForm">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label" style="margin-left: -4px;">E-mail</label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="senha">
+                </div>
+                <div class="mb-3">
+                    <label for="endereco" class="form-label" style="margin-left: -20px;">Endereço</label>
+                    <input type="text" class="form-control" id="endereco">
+                </div>
+                <div class="mb-3">
+                    <label for="cidade" class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="cidade">
+                </div>
+                <div class="mb-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <input type="text" class="form-control" id="estado">
+                </div>
+                <button type="button" onclick="mostrarSenha()" class="btn btn-primary">Mostrar Senha</button>
+                <button type="button" onclick="salvarPerfil()" class="btn btn-success">Salvar</button>
+                <button onclick="logout()" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = localStorage.getItem('id');
+
+            if (!userId) {
+                alert('Faça login para ver o perfil!');
+                window.location.href = 'http://localhost:3000/usuarios/login.html';
+                return;
+            }
+            
+            const response = await fetch(`http://localhost:3000/api/usuarios/${userId}`);
+            const user = await response.json();
+
+            document.getElementById('nome').value = user.nome;
+            document.getElementById('email').value = user.email;
+            document.getElementById('senha').value = user.senha;
+            document.getElementById('endereco').value = user.endereco;
+            document.getElementById('cidade').value = user.cidade;
+            document.getElementById('estado').value = user.estado;
+        });
+
+        function mostrarSenha() {
+            var campoSenha = document.getElementById('senha');
+            if (campoSenha.type == 'text') {
+                campoSenha.type = 'password';
+            } else {
+                campoSenha.type = 'text';
+            }
+        }
+
+        async function salvarPerfil() {
+            const userId = localStorage.getItem('id');
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const endereco = document.getElementById('endereco').value;
+            const cidade = document.getElementById('cidade').value;
+            const estado = document.getElementById('estado').value;
+
+            const data = { nome, email, senha, endereco, cidade, estado };
+
+            const response = await fetch(`http://localhost:3000/api/usuarios/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        function logout() {
+            localStorage.removeItem('id'); // Remove o ID do usuário do localStorage
+            alert('Você foi deslogado com sucesso!');
+            window.location.href = 'login.html'; // Redireciona para a página de login
+        }
+    </script>
+</body>
+</html>

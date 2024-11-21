@@ -224,6 +224,17 @@ html, body {
     color: #5d53b3; /* Azul para destacar o preço */
 }
 
+.card button {
+    background-color: #5d53b3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
     .cards-container {
@@ -244,7 +255,6 @@ html, body {
    .card h2:hover{
     color:#5d53b3
 }
-
 
 
 /* Animação para mover o carrossel */
