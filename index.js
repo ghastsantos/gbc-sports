@@ -1,29 +1,22 @@
 var express = require('express');
 var app = express();
-var mysql = require('mysql');
+var mysql2 = require('mysql2');
 var multer = require('multer');
-const nodemailer = require('nodemailer');
-
+var cors = require('cors');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
 app.use(express.static('./pages'));
 app.use(express.json());
+app.use(cors());
 
 const port = 3000;
 const router = express.Router();
-const transporter = nodemailer.createTransport({
-    service: 'Gmail', 
-    auth: {
-        user: 'gasesb26@gmail.com',
-        pass: 'sua-senha'
-    }
-});
 
-var con = mysql.createConnection({
+var con = mysql2.createConnection({
     host: "127.0.0.1",
     user: "root",
-    password: "Ga$t@26062006",
+    password: "PUC@1234",
     database: "gbcSports"
 });
 
@@ -36,7 +29,7 @@ con.connect((err) => {
 });
 
 router.get("/api/usuarios", (request, response) => {
-    const sql = 'SELECT id, nome, email, endereco, cidade FROM usuarios';
+    const sql = 'SELECT id, nome, email, endereco, cidade, estado, data_nascimento, cpf FROM usuarios';
     con.query(sql, function (err, result) {
         if (err) {
             console.error("Error executing query:", err);
@@ -92,9 +85,10 @@ router.post("/api/usuarios", (request, response) => {
 
 router.put("/api/usuarios/:id", (request, response) => {
     const { id } = request.params;
-    const { nome, email, senha, endereco, cidade, estado } = request.body;
-    const sql = 'UPDATE usuarios SET nome = ?, email = ?, senha = ?, endereco = ?, cidade = ?, estado = ? WHERE id = ?';
-    con.query(sql, [nome, email, senha, endereco, cidade, estado, id], function (err, result) {
+    // Adicione data_nascimento e cpf aqui:
+    const { nome, email, senha, endereco, cidade, estado, data_nascimento, cpf } = request.body;
+    const sql = 'UPDATE usuarios SET nome = ?, email = ?, senha = ?, endereco = ?, cidade = ?, estado = ?, data_nascimento = ?, cpf = ? WHERE id = ?';
+    con.query(sql, [nome, email, senha, endereco, cidade, estado, data_nascimento, cpf, id], function (err, result) {
         if (err) {
             console.error("Error executing query:", err);
             response.status(500).json({ error: err.message });
