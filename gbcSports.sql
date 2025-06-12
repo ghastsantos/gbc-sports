@@ -27,5 +27,25 @@ CREATE TABLE produtos (
     genero ENUM('masculino', 'feminino') NOT NULL
 );
 
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE produto_categorias (
+    produto_id INT,
+    categoria_id INT,
+    PRIMARY KEY (produto_id, categoria_id),
+    FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
+);
+
+ALTER TABLE produtos DROP COLUMN tipo;
+
+INSERT INTO categorias (nome) VALUES ('Camisas'), ('Regatas'), ('Casacos');
+
 SELECT * FROM produtos;
 SELECT * FROM usuarios;
+SELECT * FROM categorias;
+
+SELECT * FROM produto_categorias WHERE categoria_id = 1;

@@ -100,7 +100,7 @@ router.put("/api/usuarios/:id", (request, response) => {
 
 router.get("/api/usuarios/:id", (request, response) => {
     const { id } = request.params;
-    const sql = 'SELECT id, nome, email, senha, endereco, cidade, estado FROM usuarios WHERE id = ?';
+    const sql = 'SELECT id, nome, email, senha, endereco, cidade, estado, data_nascimento, cpf FROM usuarios WHERE id = ?';
     con.query(sql, [id], function (err, result) {
         if (err) {
             console.error("Error executing query:", err);
@@ -135,16 +135,19 @@ router.delete("/api/usuarios/:id", (request, response) => {
 
 
 router.post("/api/login", (request, response) => {
-    const usuario = request.body;
-    const email = usuario.email;
-    const senha = usuario.senha;
-
-    const sql = `select id, email from usuarios where email = '${email}' and senha = '${senha}'`;
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log(result);
-        response.status(200).json(result);
-    }); 
+    const { email, senha } = request.body;
+    const sql = `SELECT id, email FROM usuarios WHERE email = ? AND senha = ?`;
+    con.query(sql, [email, senha], function (err, result) {
+        if (err) {
+            console.error("Erro ao fazer login:", err);
+            return response.status(500).json({ error: "Erro interno do servidor." });
+        }
+        if (result.length > 0) {
+        response.status(200).json(result[0]);
+        } else {
+        response.status(401).json({ error: "E-mail ou senha inválidos." });
+        }
+    });
 });
 
 router.post("/api/cadastrese", async (request, response) => {
@@ -173,83 +176,93 @@ router.post("/api/cadastrese", async (request, response) => {
     });
 });
 
-router.post("/api/produtos", upload.single('imagem'), (request, response) => {
-    const produto = {
-        nome: request.body.nome,
-        preco: request.body.preco,
-        ano: request.body.ano,
-        ativo: request.body.ativo === 'true', 
-        imagem: request.file ? request.file.buffer : null,
-        tipo: request.body.tipo,
-        genero: request.body.genero
-    };
+router.post("/api/produtos", upload.single('imagem'), (req, res) => {
+    const { nome, preco, ano, ativo, genero, categorias } = req.body;
+    const imagem = req.file ? req.file.buffer : null;
 
-    console.log("Produto recebido:", produto);
+    const sql = `INSERT INTO produtos (nome, preco, ano, ativo, imagem, genero) VALUES (?, ?, ?, ?, ?, ?)`;
+    con.query(sql, [nome, preco, ano, ativo === 'true', imagem, genero], function (err, result) {
+        if (err) return res.status(500).json({ error: err.message });
+        const produtoId = result.insertId;
 
-    const sql = `INSERT INTO produtos (nome, preco, ano, ativo, imagem, tipo, genero) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    con.query(sql, [produto.nome, produto.preco, produto.ano, produto.ativo, produto.imagem, produto.tipo, produto.genero], function (err, result) {
-        if (err) {
-            console.error("Error executing query:", err);
-            response.status(500).json({ error: err.message });
-            return;
+        // Relacionar categorias
+        let cats = [];
+        try { cats = JSON.parse(categorias); } catch {}
+        if (Array.isArray(cats) && cats.length > 0) {
+            const values = cats.map(catId => [produtoId, catId]);
+            con.query('INSERT INTO produto_categorias (produto_id, categoria_id) VALUES ?', [values], (err2) => {
+                if (err2) return res.status(500).json({ error: err2.message });
+                res.status(201).json({ id: produtoId });
+            });
+        } else {
+            res.status(201).json({ id: produtoId });
         }
-        produto.id = result.insertId;
-        response.status(201).json(produto);
     });
 });
 
-router.get("/api/produtos", (request, response) => {
-    const sql = 'SELECT id, nome, preco, ano, ativo, imagem, tipo, genero FROM produtos';
-    con.query(sql, function (err, result) {
-        if (err) {
-            console.error("Error executing query:", err);
-            response.status(500).json({ error: err.message });
-            return;
-        }
-        result.forEach(produto => {
-            if (produto.imagem) {
-                produto.imagem = produto.imagem.toString('base64');
+// Exemplo de endpoint para listar produtos com categorias
+router.get("/api/produtos", (req, res) => {
+  const sql = `
+    SELECT p.id, p.nome, p.preco, p.ano, p.ativo, p.genero,
+      GROUP_CONCAT(pc.categoria_id) AS categorias
+    FROM produtos p
+    LEFT JOIN produto_categorias pc ON p.id = pc.produto_id
+    GROUP BY p.id
+  `;
+  con.query(sql, (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    // Transforme categorias em array de números
+    const produtos = result.map(prod => ({
+      ...prod,
+      categorias: prod.categorias
+        ? prod.categorias.split(',').map(Number)
+        : [],
+    }));
+    res.status(200).json(produtos);
+  });
+});
+
+router.get("/api/produtos/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = 'SELECT id, nome, preco, ano, ativo, imagem, genero FROM produtos WHERE id = ?';
+    con.query(sql, [id], function (err, result) {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.length === 0) return res.status(404).json({ error: "Produto não encontrado!" });
+        const produto = result[0];
+        if (produto.imagem) produto.imagem = produto.imagem.toString('base64');
+
+        // Buscar categorias
+        con.query('SELECT categoria_id FROM produto_categorias WHERE produto_id = ?', [id], (err2, cats) => {
+            if (err2) return res.status(500).json({ error: err2.message });
+            produto.categorias = cats.map(c => c.categoria_id);
+            res.status(200).json(produto);
+        });
+    });
+});
+
+router.put("/api/produtos/:id", (req, res) => {
+    const { id } = req.params;
+    const { nome, preco, ano, ativo, genero, categorias } = req.body;
+    const sql = 'UPDATE produtos SET nome = ?, preco = ?, ano = ?, ativo = ?, genero = ? WHERE id = ?';
+    con.query(sql, [nome, preco, ano, ativo, genero, id], function (err, result) {
+        if (err) return res.status(500).json({ error: err.message });
+
+        // Atualizar categorias
+        let cats = [];
+        try { cats = JSON.parse(categorias); } catch {}
+        con.query('DELETE FROM produto_categorias WHERE produto_id = ?', [id], (err2) => {
+            if (err2) return res.status(500).json({ error: err2.message });
+            if (Array.isArray(cats) && cats.length > 0) {
+                const values = cats.map(catId => [id, catId]);
+                con.query('INSERT INTO produto_categorias (produto_id, categoria_id) VALUES ?', [values], (err3) => {
+                    if (err3) return res.status(500).json({ error: err3.message });
+                    res.status(200).json({ message: "Produto atualizado com sucesso!" });
+                });
+            } else {
+                res.status(200).json({ message: "Produto atualizado com sucesso!" });
             }
         });
-        response.status(200).json(result);
     });
-});
-
-router.get("/api/produtos/:id", (request, response) => {
-    const { id } = request.params;
-    const sql = 'SELECT id, nome, preco, ano, ativo, imagem, tipo, genero FROM produtos WHERE id = ?';
-    con.query(sql, [id], function (err, result) {
-        if (err) {
-            console.error("Error executing query:", err);
-            response.status(500).json({ error: err.message });
-            return;
-        }
-        if (result.length === 0) {
-            return response.status(404).json({ error: "Produto não encontrado!" });
-        }
-        const produto = result[0];
-        if (produto.imagem) {
-            produto.imagem = produto.imagem.toString('base64');
-        }
-        response.status(200).json(produto);
-    });
-});
-
-router.put("/api/produtos/:id", (request, response) => {
-    const { id } = request.params;
-    const { nome, preco, ano, ativo, tipo, genero } = request.body;
-
-    const sql = 'UPDATE produtos SET nome = ?, preco = ?, ano = ?, ativo = ?, tipo = ?, genero = ? WHERE id = ?';
-
-    con.query(sql, [nome, preco, ano, ativo, tipo, genero, id], function (err, result) {
-        if (err) {
-            console.error("Error executing query:", err);
-            response.status(500).json({ error: err.message });
-            return;
-        }
-        response.status(200).json({ message: "Produto atualizado com sucesso!" });
-    });
-
 });
 
 
@@ -263,6 +276,47 @@ router.delete("/api/produtos/:id", (request, response) => {
             return;
         }
         response.status(204).send();
+    });
+});
+
+// Listar categorias
+router.get("/api/categorias", (req, res) => {
+    const sql = 'SELECT * FROM categorias';
+    con.query(sql, (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json(result);
+    });
+});
+
+// Criar categoria
+router.post("/api/categorias", (req, res) => {
+    const { nome } = req.body;
+    if (!nome) return res.status(400).json({ error: "Nome é obrigatório" });
+    const sql = 'INSERT INTO categorias (nome) VALUES (?)';
+    con.query(sql, [nome], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ id: result.insertId, nome });
+    });
+});
+
+// Atualizar categoria
+router.put("/api/categorias/:id", (req, res) => {
+    const { id } = req.params;
+    const { nome } = req.body;
+    const sql = 'UPDATE categorias SET nome = ? WHERE id = ?';
+    con.query(sql, [nome, id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json({ message: "Categoria atualizada com sucesso!" });
+    });
+});
+
+// Deletar categoria
+router.delete("/api/categorias/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = 'DELETE FROM categorias WHERE id = ?';
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(204).send();
     });
 });
 
