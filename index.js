@@ -5,6 +5,8 @@ var multer = require('multer');
 var cors = require('cors');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'Oi@2025';
 
 app.use(express.static('./pages'));
 app.use(express.json());
@@ -28,7 +30,7 @@ con.connect((err) => {
     console.log("Connected to the database!");
 });
 
-router.get("/api/usuarios", (request, response) => {
+router.get("/api/usuarios", authenticateToken, (request, response) => {
     const sql = 'SELECT id, nome, email, endereco, cidade, estado, data_nascimento, cpf FROM usuarios';
     con.query(sql, function (err, result) {
         if (err) {
@@ -143,9 +145,12 @@ router.post("/api/login", (request, response) => {
             return response.status(500).json({ error: "Erro interno do servidor." });
         }
         if (result.length > 0) {
-        response.status(200).json(result[0]);
+            // Gera o token JWT
+            const user = result[0];
+            const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '2h' });
+            response.status(200).json({ token, id: user.id, email: user.email });
         } else {
-        response.status(401).json({ error: "E-mail ou senha inválidos." });
+            response.status(401).json({ error: "E-mail ou senha inválidos." });
         }
     });
 });
@@ -201,7 +206,7 @@ router.post("/api/produtos", upload.single('imagem'), (req, res) => {
 });
 
 // Exemplo de endpoint para listar produtos com categorias
-router.get("/api/produtos", (req, res) => {
+router.get("/api/produtos", authenticateToken, (req, res) => {
   const sql = `
     SELECT p.id, p.nome, p.preco, p.ano, p.ativo, p.genero,
       GROUP_CONCAT(pc.categoria_id) AS categorias
@@ -280,7 +285,7 @@ router.delete("/api/produtos/:id", (request, response) => {
 });
 
 // Listar categorias
-router.get("/api/categorias", (req, res) => {
+router.get("/api/categorias", authenticateToken, (req, res) => {
     const sql = 'SELECT * FROM categorias';
     con.query(sql, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -319,6 +324,18 @@ router.delete("/api/categorias/:id", (req, res) => {
         res.status(204).send();
     });
 });
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'Token não fornecido' });
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ error: 'Token inválido' });
+        req.user = user;
+        next();
+    });
+}
 
 app.use(router);
 app.listen(port, () => {
