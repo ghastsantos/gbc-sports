@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var app = express();
 var mysql2 = require('mysql2');
@@ -6,20 +7,31 @@ var cors = require('cors');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'Oi@2025';
+
+// Environment variables
+const JWT_SECRET = process.env.JWT_SECRET || 'Oi@2025';
+const PORT = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
 app.use(express.static('./pages'));
 app.use(express.json());
-app.use(cors());
 
-const port = 3000;
+// CORS configuration for production
+app.use(cors({
+    origin: [FRONTEND_URL, 'http://localhost:5173', 'http://localhost:4173'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+const port = PORT;
 const router = express.Router();
 
 var con = mysql2.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "PUC@1234",
-    database: "gbcSports"
+    host: process.env.DB_HOST || "127.0.0.1",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "PUC@1234",
+    database: process.env.DB_NAME || "gbcSports"
 });
 
 con.connect((err) => {
