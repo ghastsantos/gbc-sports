@@ -1,8 +1,99 @@
-# Ignore node_modules directory
-node_modules
-# Ignore other common files and directories
-.DS_Store
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment variables (CRITICAL - Never commit!)
 .env
-dist
-build
+.env.local
+.env.development
+.env.production
+.env.test
+.env.staging
+*.env
+
+# Database files and credentials
+*.db
+*.sqlite
+*.sqlite3
+database.json
+config/database.json
+
+# Logs
+logs/
 *.log
+combined.log
+error.log
+access.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Build outputs
+build/
+dist/
+out/
+
+# Cache directories
+.cache/
+.tmp/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Uploads and user content
+uploads/
+public/uploads/
+static/uploads/
+
+# Session data
+sessions/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+
+# Backup files
+*.bak
+*.backup
+*.sql.gz
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Package files
+*.tgz
+*.tar.gz
